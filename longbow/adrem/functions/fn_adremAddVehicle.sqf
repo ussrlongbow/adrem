@@ -15,7 +15,7 @@ Description:
 	Function adds a vehicle to Advanced Respawn Manager
 
 Arguments:
-	ARRAY [_VEH,_DELAY,_TYPE,_DIST,_INIT,_POS,_DIR,_COND,_OVERRIDE,_NOTIFY,_TICKETS]
+	ARRAY [_VEH,_DELAY,_TYPE,_DIST,_INIT,_POS,_DIR,_VUPDIR,_COND,_OVERRIDE,_NOTIFY,_TICKETS]
 		_VEH - object, vehicle to add
 		_DELAY - number, respawn delay in seconds
 		_TYPE - number, respawn type, currently ignored
@@ -23,6 +23,7 @@ Arguments:
 		_INIT - code, code to be executed for respawned vehicle
 		_POS - array, positionASL of respawned vehicle
 		_DIR - array, vectorDirAndUp of respawned vehicle
+		_VUPDIR - array, vehicle orientation, vectorDirAndUp
 		_COND - code, additional condition to force vehicle respawn
 		_OVERRIDE - boolean, override default respawn conditions and rely only
 			on _COND
@@ -82,7 +83,7 @@ _veh setVariable ["rwt_adrem_startdir",_dir];
 
 if (_vupdir isEqualTo []) then
 {
-	_vupdir = vectorDirAndUp _veh;
+	_vupdir = [(vectorDir _veh),(vectorUp _veh)];
 };
 _veh setVariable ["rwt_adrem_vupdir",_vupdir];
 

@@ -5,7 +5,7 @@ License: MIT License
 https://github.com/ussrlongbow/adrem
 Version: 1.0
 Dependencies:
-	NONE
+	RWT_fnc_adremAddVehicle
 
 Changelog:	
 	=== 1.0 === 18-Jul-2016
@@ -25,9 +25,11 @@ Example:
 
 *****************************************************************************/
 params [["_oldveh",objNull,[objNull]]];
+if (isNull _oldveh) exitWith {diag_log "Incorrect argument"; objNull};
+
 private ["_veh","_vehtype","_varname","_pos","_dir","_vupdir","_init","_cond","_delay","_resptype","_dist"];
 
-if (isNull _oldveh) exitWith {diag_log "Incorrect argument"; objNull};
+
 
 // read vehicle respawn settings
 _vehtype = typeOf _oldveh;
@@ -65,4 +67,13 @@ _veh setVariable ["rwt_adrem_leavedist",_dist];
 
 // execute init code for new vehicle
 [_oldveh,_veh] call _init;
+// remove old vehicle from respawn manager
+rwt_adrem_managedlist = rwt_adrem_managedlist - [_oldveh];
+// delete old vehicle
+deleteVehicle _oldveh;
+
+// add new vehicle to respawn manager
+[_veh,_delay,_resptype,_dist,_init,_pos,_dir,_vupdir,_cond] call RWT_fnc_adremAddVehicle;
+
+// return new vehicle
 _veh
