@@ -15,7 +15,7 @@ Description:
 	Function adds a vehicle to Advanced Respawn Manager
 
 Arguments:
-	ARRAY [_VEH,_DELAY,_TYPE,_DIST,_INIT,_POS,_DIR,_COND,_OVERRIDE,_NOTIFY]
+	ARRAY [_VEH,_DELAY,_TYPE,_DIST,_INIT,_POS,_DIR,_COND,_OVERRIDE,_NOTIFY,_TICKETS]
 		_VEH - object, vehicle to add
 		_DELAY - number, respawn delay in seconds
 		_TYPE - number, respawn type, currently ignored
@@ -33,9 +33,10 @@ Arguments:
 			3 - show to blufor
 			4 - show to independent
 			5 - show to civilian
+		_TICKETS - number of respawns
 
 Returns:
-	NOTHING
+	BOOLEAN, true on successful add
 
 *****************************************************************************/
 
@@ -50,18 +51,19 @@ private _eval = params [
 	["_vupdir",[],[[]],[2]],
 	["_cond",{},[{}]],
 	["_override",false,[false]],
-	["_notify",false,[false]],
+	["_notify",0,[0]],
+	["_tickets",-1,[0]]
 ];
 private "_varname";
 if (isNull _veh) exitWith {
-diag_log "Incorrect parameters supplied";
-false
+	diag_log "Incorrect parameters supplied";
+	false
 };
 
 _veh setVariable ["rwt_adrem_respdelay",_delay];
-_veh setVariable ["rwt_adrem_resptype",_delay];
-_veh setVariable ["rwt_adrem_leavedist",_delay];
-_veh setVariable ["rwt_adrem_init",_delay];
+_veh setVariable ["rwt_adrem_resptype",_type];
+_veh setVariable ["rwt_adrem_leavedist",_dist];
+_veh setVariable ["rwt_adrem_init",_init];
 _veh setVariable ["rwt_adrem_customcond",_cond];
 _veh setVariable ["rwt_adrem_override",_override];
 _veh setVariable ["rwt_adrem_notify",_notify];
@@ -87,3 +89,4 @@ _veh setVariable ["rwt_adrem_vupdir",_vupdir];
 rwt_adrem_managedlist pushBackUnique _veh;
 
 if (isInRemainsCollector _veh) then {removeFromRemainsCollector [_veh]};
+true
