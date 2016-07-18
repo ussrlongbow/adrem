@@ -43,6 +43,9 @@ _delay = _oldveh getVariable ["rwt_adrem_respdelay",30];
 _resptype = _oldveh getVariable ["rwt_adrem_resptype",1];
 _dist = _oldveh getVariable ["rwt_adrem_leavedist",100];
 
+
+// remove old vehicle to avoid collisions
+_oldveh setPosASL [0,0,9000];
 // create new vehicle
 _veh = createVehicle [_vehtype,[(_pos select 0),(_pos select 1),0.2],[],0,"CAN_COLLIDE"];
 
